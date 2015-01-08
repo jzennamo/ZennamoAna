@@ -24,6 +24,8 @@ namespace larlite {
 
     // load dEdx training results
     _alg_emp.LoadParams();
+    _alg_emp.ProcessBegin();
+
 
     return true;
   }
@@ -40,9 +42,6 @@ namespace larlite {
 
   bool RecoShower_Hunt::analyze(storage_manager* storage) {
   
-    std::cout << " yo yo yo bitches" << std::endl;
-
-
     auto ev_shower  = storage->get_data<event_shower>("showerreco");
     if (!ev_shower) { std::cout << "FAIL!" << std::endl; return false; }
 
@@ -60,9 +59,9 @@ namespace larlite {
 
 
       std::cout << "DO I Kill you ?!" << std::endl; 
-
-      std::cout << "shr dEdx: " << shower.dEdx()[2] << std::endl;
       
+      std::cout << "LL: " << _alg_emp.LL(true,1.,-1.) << std::endl;
+
       e_like = (_alg_emp.LL(true, shower.dEdx()[2], -1.) >
 		_alg_emp.LL(false,shower.dEdx()[2], -1.)) ? 1 : 0; 
 
